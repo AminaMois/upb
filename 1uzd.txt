@@ -1,0 +1,23 @@
+program upb1uzdevums;
+
+{$mode delphi}{$H+}
+
+uses crt, fpSpreadsheet;
+
+type TsSpreadsheetFormat= (sf00XML);
+var MyExcelFile: TsWorkbook;
+	SearchParameterX: TsSearchParams;
+
+
+BEGIN
+	MyExcelFile:= TsWorkbook.Create;
+	MyExcelFile.ReadFromFile('C:\MyData\AminaCODE\upb\Linijas.xlsx');
+	SearchParameterX.SearchText:= 'X';
+	with TSearchEngine.Create(MyExcelFile) do begin
+		if FindFirst(SearchParameterX, MyExcelFile, XRow, XColumn) then begin
+			WriteLn('X coordinate of points is found under cell ', GetCellString(XRow, XColumn));
+		end else begin
+			WriteLn('There is no X coordinate in the file.');
+		end;
+	end;
+END.
