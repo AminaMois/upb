@@ -1,32 +1,14 @@
-program upb1uzdevums;
+/*
+To detect polygon from line intersections:
+1)Get array of points (list)
+2)Get array of lines
+3)Determine which lines (considered as functions) have same points
+4)Using graph theory name all nodes and edges
+5)Apply graph search algorithm (breadth using queue, depth of a graph in recursion stack)
+6)Detect cycles in a graph
+7)Name vertices and lines of each polygon
+*/
 
-{$mode delphi}{$H+}
-
-uses crt, fpSpreadsheet;
-
-type TsSpreadsheetFormat= (sf00XML);
-var MyExcelFile: TsWorkbook;
-	SearchParameterX: TsSearchParams;
-
-
-BEGIN
-	MyExcelFile:= TsWorkbook.Create;
-	MyExcelFile.ReadFromFile('C:\MyData\AminaCODE\upb\Linijas.xlsx');
-	SearchParameterX.SearchText:= 'X';
-	with TSearchEngine.Create(MyExcelFile) do begin
-		if FindFirst(SearchParameterX, MyExcelFile, XRow, XColumn) then begin
-			WriteLn('X coordinate of points is found under cell ', GetCellString(XRow, XColumn));
-		end else begin
-			WriteLn('There is no X coordinate in the file.');
-		end;
-	end;
-END.
-
-
-
-
-
-//C#
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,17 +46,19 @@ namespace upbLinijas
                     if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
                         Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
 
-                    //add useful things here!   
+                    //add things here  
+                       
                 }
             }
+            
 
             //cleanup
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            //rule of thumb for releasing com objects:
+            //rule for releasing com objects:
             //  never use two dots, all COM objects must be referenced and released individually
-            //  ex: [somthing].[something].[something] is bad
+            //  example: [smth].[smth].[smth] is bad
 
             //release com objects to fully kill excel process from running in the background
             Marshal.ReleaseComObject(xlRange);
@@ -87,6 +71,8 @@ namespace upbLinijas
             //quit and release
             xlApp.Quit();
             Marshal.ReleaseComObject(xlApp);
+            Console.ReadLine();
         }
+
     }
 }
